@@ -80,7 +80,7 @@
             android:textColor="#FFFFFF"
             android:textSize="27sp" />
 
-        <EditText
+        <TextView
             android:id="@+id/phoneField"
             android:layout_width="276dp"
             android:layout_height="41dp"
@@ -112,7 +112,7 @@
             android:textColorHint="#2AFFFFFF" />
 
         <Button
-            android:id="@+id/saveBtn"
+            android:id="@+id/updateBtn"
             android:layout_width="134dp"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"

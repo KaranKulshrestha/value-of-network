@@ -12,12 +12,12 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.karankulx.von.Adapter.FragmentsAdapter;
 import com.karankulx.von.databinding.ActivityHomeBinding;
 
 public class HomeActivity extends AppCompatActivity {
 
     ActivityHomeBinding binding;
-    ProgressDialog progressDialog;
     FirebaseAuth firebaseAuth;
 
     @Override
@@ -27,7 +27,13 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+        binding.viewPager.setAdapter(new FragmentsAdapter(getSupportFragmentManager()));
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+
+
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -52,4 +58,5 @@ public class HomeActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
 }

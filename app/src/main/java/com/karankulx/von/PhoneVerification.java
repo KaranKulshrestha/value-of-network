@@ -106,8 +106,10 @@ public class PhoneVerification extends AppCompatActivity {
                                         database.getReference().child("users")
                                                 .child(uid).setValue(user);
 
-                                        Intent intent = new Intent(PhoneVerification.this, HomeActivity.class);
+                                        Intent intent = new Intent(PhoneVerification.this, SignIn.class);
                                         startActivity(intent);
+                                        Toast.makeText(PhoneVerification.this, "Sing Up successFull.", Toast.LENGTH_SHORT).show();
+                                        FirebaseAuth.getInstance().signOut();
                                         finish();
 
                                     } else {
