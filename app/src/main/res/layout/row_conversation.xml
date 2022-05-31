@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:orientation="horizontal"
+    android:id="@+id/mainBody"
     android:layout_margin="10dp"
     android:backgroundTint="#676666"
     android:foregroundTint="#6C6A6A">

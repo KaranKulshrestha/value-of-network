@@ -21,6 +21,8 @@ import android.view.MenuItem;
 import androidx.appcompat.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -41,9 +43,12 @@ public class ContactSync extends AppCompatActivity {
 
     public static final int REQUEST_READ_CONTACTS = 79;
 
+    FirebaseAuth mAuth;
+
     private RecyclerView localContactDetails;
     private ContactAdapter adapter;
-    ArrayList<Contact> contactDetails;
+    ArrayList<Users> requiredContacts;
+    ArrayList<Users> cloudContacts;
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -57,21 +62,69 @@ public class ContactSync extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        localContactDetails = findViewById(R.id.localContactDetails);
+
+        cloudContacts = new ArrayList<>();
+        requiredContacts = new ArrayList<>();
+
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS)
                 == PackageManager.PERMISSION_GRANTED) {
-            contactDetails = getContactList();
+            filler();
 
-            for (Contact contact : contactDetails) {
+            for (Users contact : cloudContacts) {
                 Log.d("hvy", "onCreaterrView  Phone Number: name = " + contact.getName()
                         + " No = " + contact.getPhoneNumber());
             }
-            localContactDetails = findViewById(R.id.localContactDetails);
-            buildRecyclerView();
+
         } else {
             requestPermission();
         }
 
     }
+
+
+    private void filler() {
+        ArrayList<Contact> lContacts = getContactList();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.getReference().child("users").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot data : snapshot.getChildren()) {
+                    Users user = data.getValue(Users.class);
+                    mAuth = FirebaseAuth.getInstance();
+                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                    if (!currentUser.getUid().equals(data.getKey())) {
+                        cloudContacts.add(user);
+                        Log.d("lolly", data.getKey());
+                    }
+                }
+
+                for (Contact lCon : lContacts) {
+                    for (Users cCon : cloudContacts) {
+                        if (lCon.getPhoneNumber().contains(cCon.getPhoneNumber())) {
+                            cCon.setName(lCon.getName());
+                            requiredContacts.add(cCon);
+                        }
+                    }
+                }
+
+
+                adapter = new ContactAdapter(requiredContacts, ContactSync.this);
+                LinearLayoutManager manager = new LinearLayoutManager(ContactSync.this);
+                localContactDetails.setHasFixedSize(true);
+                localContactDetails.setLayoutManager(manager);
+                localContactDetails.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -107,10 +160,10 @@ public class ContactSync extends AppCompatActivity {
 
     private void filter(String text) {
         // creating a new array list to filter our data.
-        ArrayList<Contact> filteredlist = new ArrayList<>();
+        ArrayList<Users> filteredlist = new ArrayList<>();
 
         // running a for loop to compare elements.
-        for (Contact item : contactDetails) {
+        for (Users item : requiredContacts) {
             // checking if the entered string matched with any item of our recycler view.
             if (item.getName().toLowerCase().contains(text.toLowerCase())) {
                 // if the item is matched we are
@@ -128,26 +181,6 @@ public class ContactSync extends AppCompatActivity {
             adapter.filterList(filteredlist);
         }
     }
-
-    private void buildRecyclerView() {
-
-
-        // initializing our adapter class.
-        adapter = new ContactAdapter(contactDetails, ContactSync.this);
-
-        // adding layout manager to our recycler view.
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        localContactDetails.setHasFixedSize(true);
-
-        // setting layout manager
-        // to our recycler view.
-        localContactDetails.setLayoutManager(manager);
-
-        // setting adapter to
-        // our recycler view.
-        localContactDetails.setAdapter(adapter);
-    }
-
 
     private void requestPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_CONTACTS)) {
@@ -170,7 +203,7 @@ public class ContactSync extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_READ_CONTACTS: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    contactDetails = getContactList();
+                    filler();
                 } else {
                     Toast.makeText(this, "You have disabled a contacts permission", Toast.LENGTH_LONG).show();
                 }
@@ -222,6 +255,4 @@ public class ContactSync extends AppCompatActivity {
         onBackPressed();
         return true;
     }
-
-
 }
