@@ -59,9 +59,10 @@ public class ChatActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-
         attachBtn = findViewById(R.id.attachment);
+
+
+
     }
 
 
