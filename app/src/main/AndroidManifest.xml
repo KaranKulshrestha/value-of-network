@@ -3,6 +3,7 @@
     package="com.karankulx.von">
 
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+<!--    <uses-permission android:name="android.permission.CAMERA"> </uses-permission>-->
 
     <application
         android:name=".OfflineNetwork"
@@ -14,8 +15,7 @@
         android:theme="@style/Theme.Von">
         <activity
             android:name=".ChatActivity"
-            android:fitsSystemWindows="true"
-            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:exported="false" />
         <activity
             android:name=".ContactSync"

@@ -54,6 +54,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             public void onClick(View view) {
                 Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra("username", holder.binding.chaterName.getText().toString());
+                intent.putExtra("profileUri", modal.getProfilePic());
                 context.startActivity(intent);
             }
         });
