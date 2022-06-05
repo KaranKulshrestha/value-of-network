@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/mainLayout"
     android:background="@drawable/chat_bg"
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
@@ -67,7 +68,7 @@
 
 
         <ImageView
-            android:id="@+id/gallary"
+            android:id="@+id/videos"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="right"
@@ -75,11 +76,11 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/send_btn_bg"
             android:padding="7dp"
-            android:src="@drawable/gallary"
+            android:src="@drawable/videos"
             app:tint="#7F7E81" />
 
         <ImageView
-            android:id="@+id/camera"
+            android:id="@+id/photos"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_gravity="right"
@@ -87,7 +88,7 @@
             android:layout_marginBottom="60dp"
             android:background="@drawable/send_btn_bg"
             android:padding="7dp"
-            android:src="@drawable/camera"
+            android:src="@drawable/photos"
             app:tint="#7F7E81" />
 
 
