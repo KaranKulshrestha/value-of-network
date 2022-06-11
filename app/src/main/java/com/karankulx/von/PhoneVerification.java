@@ -102,7 +102,7 @@ public class PhoneVerification extends AppCompatActivity {
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
                                         progressDialog.dismiss();
-                                        Users user = new Users(imageUri, name, email, password, password, phoneNumber, status);
+                                        Users user = new Users(imageUri, name, email, password, password, phoneNumber, status, uid);
                                         database.getReference().child("users")
                                                 .child(uid).setValue(user);
 

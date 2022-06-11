@@ -2,11 +2,11 @@ package com.karankulx.von.Models;
 
 public class Users {
 
-    String profilePic, name, email, password, rePassword, phoneNumber, status;
+    String profilePic, name, email, password, rePassword, phoneNumber, status, uid;
 
     public Users() {};
 
-    public Users(String profilePic, String name, String email, String password, String rePassword, String phoneNumber, String status) {
+    public Users(String profilePic, String name, String email, String password, String rePassword, String phoneNumber, String status, String uid) {
         this.profilePic = profilePic;
         this.name = name;
         this.email = email;
@@ -14,6 +14,7 @@ public class Users {
         this.rePassword = rePassword;
         this.phoneNumber = phoneNumber;
         this.status = status;
+        this.uid = uid;
     }
 
     public Users(String email, String password, String rePassword) {
@@ -83,5 +84,13 @@ public class Users {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
