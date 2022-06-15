@@ -1,6 +1,7 @@
 package com.karankulx.von.Adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.karankulx.von.Models.Message;
 import com.karankulx.von.R;
@@ -55,7 +58,21 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         Message message = messages.get(position);
         if (holder.getClass() == SentViewHolder.class) {
             SentViewHolder viewHolder = (SentViewHolder) holder;
-            viewHolder.binding.message.setText(message.getMessage());
+
+            if (message.getMessage().equals("photo")) {
+                viewHolder.binding.image.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImageUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .centerCrop()
+                        .placeholder(R.drawable.loadingimage)
+                        .into(viewHolder.binding.image);
+            } else {
+                viewHolder.binding.image.setVisibility(View.GONE);
+                viewHolder.binding.message.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setText(message.getMessage());
+            }
+
         } else {
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
             viewHolder.binding.message.setText(message.getMessage());
