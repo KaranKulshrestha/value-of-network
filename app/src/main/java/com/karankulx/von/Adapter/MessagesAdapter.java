@@ -75,7 +75,19 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
         } else {
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
-            viewHolder.binding.message.setText(message.getMessage());
+            if (message.getMessage().equals("photo")) {
+                viewHolder.binding.image.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                Glide.with(context).load(message.getImageUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .centerCrop()
+                        .placeholder(R.drawable.loadingimage)
+                        .into(viewHolder.binding.image);
+            } else {
+                viewHolder.binding.image.setVisibility(View.GONE);
+                viewHolder.binding.message.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setText(message.getMessage());
+            }
         }
     }
 
