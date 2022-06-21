@@ -324,7 +324,7 @@ public class ChatActivity extends AppCompatActivity{
                                 bmp.compress(Bitmap.CompressFormat.JPEG, 25, baos);
                                 byte[] data = baos.toByteArray();
                                 Log.d("malika", data.toString());
-                                StorageReference reference = storage.getReference().child("chats").child(calender.getTimeInMillis() + "");
+                                StorageReference reference = storage.getReference().child("chats").child("photos").child(calender.getTimeInMillis() + "");
                                 reference.putBytes(data).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                     @Override
                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
@@ -431,7 +431,7 @@ public class ChatActivity extends AppCompatActivity{
             @Override
             public void apply(final long executionId, final int returnCode) {
                 if (returnCode == RETURN_CODE_SUCCESS) {
-                    StorageReference reference = storage.getReference().child("chats").child(calendar.getTimeInMillis() + "");
+                    StorageReference reference = storage.getReference().child("chats").child("videos").child(calendar.getTimeInMillis() + "");
                     StorageMetadata metadata = new StorageMetadata.Builder()
                             .setContentType("video/" + getExt(uri))
                             .build();
