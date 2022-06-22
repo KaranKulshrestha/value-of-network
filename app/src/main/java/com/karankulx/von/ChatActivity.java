@@ -420,6 +420,8 @@ public class ChatActivity extends AppCompatActivity{
     private void LoadFfmpegLibrary(String originalPath, Uri uri){
         ProgressDialog progressDialog = new ProgressDialog(ChatActivity.this);
         progressDialog.setMessage("sending video...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
         progressDialog.show();
         File file = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
         String path = file.getPath();
@@ -448,8 +450,6 @@ public class ChatActivity extends AppCompatActivity{
                                                 public void onSuccess(Uri uri) {
                                                     String videoPath = uri.toString();
                                                     Log.d("happu", videoPath);
-                                                    long interval = 1000;
-
                                                     progressDialog.dismiss();
                                                 }
                                             });
