@@ -1,7 +1,6 @@
 package com.karankulx.von.Adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.karankulx.von.Models.Message;
 import com.karankulx.von.R;
@@ -25,6 +27,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     ArrayList<Message> messages;
     final int ITEM_SENT = 1;
     final int ITEM_RECEIVE = 2;
+
 
     public MessagesAdapter(Context context, ArrayList<Message> messages) {
         this.context = context;
@@ -59,9 +62,28 @@ public class MessagesAdapter extends RecyclerView.Adapter {
         if (holder.getClass() == SentViewHolder.class) {
             SentViewHolder viewHolder = (SentViewHolder) holder;
 
-            if (message.getMessage().equals("photo")) {
+            if (message.getMessage().equals("©°¶•ë™æ")) {
+                viewHolder.binding.idExoPlayerVIew.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                ExoPlayer player = new ExoPlayer.Builder(context).build();
+                StyledPlayerView styledPlayerView = viewHolder.binding.idExoPlayerVIew;
+                MediaItem mediaItem = MediaItem.fromUri(message.getVideoUrl());
+                styledPlayerView.setPlayer(player);
+                styledPlayerView.setShowNextButton(false);
+                styledPlayerView.setShowPreviousButton(false);
+                player.setMediaItem(mediaItem);
+                player.prepare();
+            } else {
+                viewHolder.binding.idExoPlayerVIew.setVisibility(View.GONE);
+                viewHolder.binding.message.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setText(message.getMessage());
+            }
+
+            if (message.getMessage().equals("§£€®¾")) {
                 viewHolder.binding.image.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
+                String[] a={message.getImageUrl()};
+
                 Glide.with(context).load(message.getImageUrl())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .centerCrop()
@@ -75,7 +97,27 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
         } else {
             ReceiverViewHolder viewHolder = (ReceiverViewHolder) holder;
-            if (message.getMessage().equals("photo")) {
+
+            if (message.getMessage().equals("©°¶•ë™æ")) {
+                viewHolder.binding.idExoPlayerVIew.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setVisibility(View.GONE);
+                ExoPlayer player = new ExoPlayer.Builder(context).build();
+                StyledPlayerView styledPlayerView = viewHolder.binding.idExoPlayerVIew;
+                MediaItem mediaItem = MediaItem.fromUri(message.getVideoUrl());
+                styledPlayerView.setPlayer(player);
+                styledPlayerView.setShowNextButton(false);
+                styledPlayerView.setShowPreviousButton(false);
+                player.setMediaItem(mediaItem);
+                player.prepare();
+            } else {
+                viewHolder.binding.idExoPlayerVIew.setVisibility(View.GONE);
+                viewHolder.binding.message.setVisibility(View.VISIBLE);
+                viewHolder.binding.message.setText(message.getMessage());
+            }
+
+
+
+            if (message.getMessage().equals("§£€®¾")) {
                 viewHolder.binding.image.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
                 Glide.with(context).load(message.getImageUrl())

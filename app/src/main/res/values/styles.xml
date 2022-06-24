@@ -82,5 +82,4 @@
     <style name="Popup.Dracula" parent="Widget.AppCompat.ListPopupWindow">
         <item name="android:popupBackground">@color/dracula_album_popup_bg</item>
     </style>
-
 </resources>

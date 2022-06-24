@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -64,7 +65,7 @@ public class SignIn extends AppCompatActivity {
         binding.signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                email = binding.signInEmailField.getText().toString();
+                email = binding.signInEmailField.getText().toString().trim();
                 progressDialog.show();
                 if(!email.isEmpty()) {
                     if (!binding.signInPassword.getText().toString().isEmpty()) {
@@ -72,30 +73,27 @@ public class SignIn extends AppCompatActivity {
                         userRef.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if (snapshot.getValue() != null) {
-                                    mAuth.signInWithEmailAndPassword(binding.signInEmailField.getText().toString(), binding.signInPassword.getText().toString())
-                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                    if(task.isSuccessful()) {
-                                                        progressDialog.dismiss();
-                                                        Intent intent = new Intent(SignIn.this, HomeActivity.class);
-                                                        startActivity(intent);
-                                                        finish();
-                                                    } else {
-                                                        progressDialog.dismiss();
-                                                        Toast.makeText(SignIn.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                                                    }
+                                mAuth.signInWithEmailAndPassword(binding.signInEmailField.getText().toString(), binding.signInPassword.getText().toString())
+                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if(task.isSuccessful()) {
+                                                    progressDialog.dismiss();
+                                                    Intent intent = new Intent(SignIn.this, HomeActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                } else {
+                                                    progressDialog.dismiss();
+                                                    Toast.makeText(SignIn.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                                 }
-                                            });
-                                } else {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(SignIn.this, "User do not signUp correctly", Toast.LENGTH_SHORT).show();
-                                }
+                                            }
+                                        });
                             }
 
                             @Override
-                            public void onCancelled(@NonNull DatabaseError error) {}
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(SignIn.this, error.toString(), Toast.LENGTH_SHORT).show();
+                            }
                         });
 
                     } else {

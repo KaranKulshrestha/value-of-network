@@ -53,7 +53,6 @@ public class SingUp extends AppCompatActivity {
                 email = binding.SingupPassField.getText().toString();
                 password2 = binding.editTextTextPassword2.getText().toString();
                 password3 = binding.editTextTextPassword3.getText().toString();
-                uid = mAuth.getCurrentUser().getUid();
 
                 if(email.matches("^(.+)@(\\S+)$")) {
                     if(password2.length() != 0) {
@@ -64,6 +63,7 @@ public class SingUp extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                 if(task.isSuccessful()) {
+                                                    uid = mAuth.getCurrentUser().getUid();
                                                     progressDialog.dismiss();
                                                     Intent intent = new Intent(SingUp.this, ProfilePage.class);
                                                     intent.putExtra("email", email);
@@ -109,6 +109,4 @@ public class SingUp extends AppCompatActivity {
         });
 
     }
-
-
 }

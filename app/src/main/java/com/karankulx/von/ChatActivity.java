@@ -338,7 +338,7 @@ public class ChatActivity extends AppCompatActivity{
                                                     Date date = new Date();
                                                     Message message = new Message(messageBox, senderUid, date.getTime());
                                                     message.setImageUrl(filePath);
-                                                    message.setMessage("photo");
+                                                    message.setMessage("§£€®¾");
                                                     database.getReference().child("chats")
                                                             .child(senderRoom)
                                                             .child("messages")
@@ -449,7 +449,33 @@ public class ChatActivity extends AppCompatActivity{
                                                 @Override
                                                 public void onSuccess(Uri uri) {
                                                     String videoPath = uri.toString();
+                                                    String messageBox = binding.messageText.getText().toString();
+                                                    binding.messageText.setText("");
+                                                    Date date = new Date();
+                                                    Message message = new Message(messageBox, senderUid, date.getTime());
+                                                    message.setMessage("©°¶•ë™æ");
+                                                    message.setVideoUrl(videoPath);
                                                     Log.d("happu", videoPath);
+                                                    database.getReference().child("chats")
+                                                                    .child(senderRoom)
+                                                                    .child("messages")
+                                                                    .push()
+                                                                    .setValue(message)
+                                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                @Override
+                                                                                public void onSuccess(Void unused) {
+                                                                                        database.getReference().child("chats")
+                                                                                        .child(receiverRoom)
+                                                                                        .child("messages")
+                                                                                        .push()
+                                                                                        .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                            @Override
+                                                                                            public void onSuccess(Void unused) {
+
+                                                                                        }
+                                                                                });
+                                                                                }
+                                                                            });
                                                     progressDialog.dismiss();
                                                 }
                                             });

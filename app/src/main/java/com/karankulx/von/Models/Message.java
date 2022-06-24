@@ -1,7 +1,7 @@
 package com.karankulx.von.Models;
 
 public class Message {
-    private String messageId, message, senderId, imageUrl;
+    private String messageId, message, senderId, imageUrl, videoUrl;
     private long timestamp;
     private int feeling;
 
@@ -61,4 +61,8 @@ public class Message {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public String getVideoUrl() {return videoUrl;}
+
+    public void setVideoUrl(String videoUrl) {this.videoUrl = videoUrl;}
 }
