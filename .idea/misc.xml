@@ -26,6 +26,8 @@
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/drawable/textbox_outline.xml" value="0.1795" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/activity_chat.xml" value="0.264" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/activity_contact_sync.xml" value="0.25" />
+        <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/activity_full_screen_image.xml" value="0.25" />
+        <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/activity_full_screen_image1.xml" value="0.2359375" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/activity_home.xml" value="0.26776649746192893" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/activity_in_profile.xml" value="0.2" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/activity_main.xml" value="0.25" />
@@ -37,6 +39,7 @@
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/fragment_chats.xml" value="0.264" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/fragment_group.xml" value="0.25" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/fragment_sheets.xml" value="0.25" />
+        <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/full_image_viewer.xml" value="0.25" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/item_receive.xml" value="0.264" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/item_send.xml" value="0.264" />
         <entry key="..\:/Users/This PC/Desktop/von/app/src/main/res/layout/row_conversation.xml" value="0.25" />

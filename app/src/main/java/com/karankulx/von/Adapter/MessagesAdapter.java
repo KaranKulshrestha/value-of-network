@@ -1,9 +1,12 @@
 package com.karankulx.von.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +17,7 @@ import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.ui.StyledPlayerView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.karankulx.von.FullScreenImage;
 import com.karankulx.von.Models.Message;
 import com.karankulx.von.R;
 import com.karankulx.von.databinding.ItemReceiveBinding;
@@ -82,13 +86,23 @@ public class MessagesAdapter extends RecyclerView.Adapter {
             if (message.getMessage().equals("§£€®¾")) {
                 viewHolder.binding.image.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
-                String[] a={message.getImageUrl()};
 
                 Glide.with(context).load(message.getImageUrl())
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .centerCrop()
                         .placeholder(R.drawable.loadingimage)
                         .into(viewHolder.binding.image);
+
+                viewHolder.binding.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent fp = new Intent(context, FullScreenImage.class);
+                        fp.putExtra("imageUrl", message.getImageUrl());
+                        context.startActivity(fp);
+                    }
+                });
+
+
             } else {
                 viewHolder.binding.image.setVisibility(View.GONE);
                 viewHolder.binding.message.setVisibility(View.VISIBLE);
@@ -115,8 +129,6 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 viewHolder.binding.message.setText(message.getMessage());
             }
 
-
-
             if (message.getMessage().equals("§£€®¾")) {
                 viewHolder.binding.image.setVisibility(View.VISIBLE);
                 viewHolder.binding.message.setVisibility(View.GONE);
@@ -125,6 +137,16 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                         .centerCrop()
                         .placeholder(R.drawable.loadingimage)
                         .into(viewHolder.binding.image);
+
+                viewHolder.binding.image.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent fp = new Intent(context, FullScreenImage.class);
+                        fp.putExtra("imageUrl", message.getImageUrl());
+                        context.startActivity(fp);
+                    }
+                });
+
             } else {
                 viewHolder.binding.image.setVisibility(View.GONE);
                 viewHolder.binding.message.setVisibility(View.VISIBLE);
