@@ -67,7 +67,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/feeling"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:visibility="invisible"

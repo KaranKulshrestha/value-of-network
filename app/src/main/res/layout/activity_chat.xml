@@ -35,16 +35,36 @@
                 app:civ_border_color="#00000000"
                 app:civ_border_width="0dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/username"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center_vertical"
                 android:text="karan"
                 android:textColor="@color/white"
-                android:textSize="25dp"
+                android:textSize="20dp"
                 android:textStyle="normal"></TextView>
+
+            <TextView
+                android:id="@+id/indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="-3dp"
+                android:text="Offline"
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:textSize="15dp"
+                android:textStyle="normal"></TextView>
+
+        </LinearLayout>
 
         </LinearLayout>
 

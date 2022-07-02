@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.karankulx.von.Adapter.FragmentsAdapter;
 import com.karankulx.von.databinding.ActivityHomeBinding;
 
@@ -19,6 +20,7 @@ public class HomeActivity extends AppCompatActivity {
 
     ActivityHomeBinding binding;
     FirebaseAuth firebaseAuth;
+    FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,4 +61,19 @@ public class HomeActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database = FirebaseDatabase.getInstance();
+        database.getReference().child("presence").child(currentId).setValue("Online");
+    }
+
+    @Override
+    protected void onPause() {
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database = FirebaseDatabase.getInstance();
+        database.getReference().child("presence").child(currentId).setValue("Offline");
+        super.onPause();
+    }
 }

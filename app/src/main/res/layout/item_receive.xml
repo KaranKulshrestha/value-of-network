@@ -65,7 +65,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/feeling"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:visibility="gone"

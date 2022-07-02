@@ -18,9 +18,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -145,6 +148,56 @@ public class ChatActivity extends AppCompatActivity{
                     }
                 });
 
+        final Handler handler = new Handler();
+
+        binding.messageText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                database.getReference().child("presence").child(senderUid).setValue("typing..");
+                handler.removeCallbacksAndMessages(null);
+                handler.postDelayed(userStopTyping, 1000);
+            }
+
+            Runnable userStopTyping = new Runnable() {
+                @Override
+                public void run() {
+                    database.getReference().child("presence").child(senderUid).setValue("Online");
+                }
+            };
+
+        });
+
+        database.getReference().child("presence").child(receiverUid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String status = snapshot.getValue(String.class);
+                    if (!status.isEmpty()) {
+                        if (status.equals("Offline")) {
+                            binding.indicator.setVisibility(View.GONE);
+                        } else {
+                            binding.indicator.setText(status);
+                            binding.indicator.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
         binding.sendButton.setOnClickListener(new View.OnClickListener() {
@@ -469,7 +522,6 @@ public class ChatActivity extends AppCompatActivity{
                                                                                         .setValue(message).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                                                             @Override
                                                                                             public void onSuccess(Void unused) {
-
                                                                                         }
                                                                                 });
                                                                                 }
@@ -618,6 +670,15 @@ public class ChatActivity extends AppCompatActivity{
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
+
+    @Override
+    protected void onPause() {
+        String currentId = FirebaseAuth.getInstance().getUid();
+        database = FirebaseDatabase.getInstance();
+        database.getReference().child("presence").child(currentId).setValue("Offline");
+        super.onPause();
+    }
+
 }
 
 
