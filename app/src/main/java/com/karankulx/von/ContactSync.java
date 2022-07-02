@@ -19,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import androidx.appcompat.widget.SearchView;
+
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -79,8 +81,8 @@ public class ContactSync extends AppCompatActivity {
         } else {
             requestPermission();
         }
-
     }
+
 
 
     private void filler() {
