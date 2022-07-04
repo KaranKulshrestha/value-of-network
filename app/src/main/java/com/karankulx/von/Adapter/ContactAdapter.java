@@ -207,7 +207,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             holder.binding.selectTick.setVisibility(View.VISIBLE);
             selectedUsers.add(user);
             database.getReference()
-                    .child("groups")
+                    .child("TempGroups")
                     .child(user.getUid())
                     .setValue(user)
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -217,7 +217,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                         }
                     });
         } else {
-            DatabaseReference databaseReference = database.getReference().child("groups").child(user.getUid());
+            DatabaseReference databaseReference = database.getReference().child("TempGroups").child(user.getUid());
             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
