@@ -2,6 +2,8 @@ package com.karankulx.von.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.ActionMode;
@@ -13,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
@@ -25,6 +26,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.karankulx.von.ChatActivity;
 import com.karankulx.von.ContactSync;
 import com.karankulx.von.GroupBuildingActivity;
@@ -34,6 +41,7 @@ import com.karankulx.von.Models.Users;
 import com.karankulx.von.R;
 import com.karankulx.von.databinding.RowConversationBinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +52,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     boolean isSelectAll = false;
     MainViewModel mainViewModel;
     ArrayList<Users> selectedUsers = new ArrayList<>();
+    FirebaseDatabase database;
 
     public ContactAdapter(ArrayList<Users> contactDetails, Context context) {
         this.contactDetails = contactDetails;
@@ -120,7 +129,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                             switch (id) {
                                 case R.id.groupBtn:
                                     if (selectedUsers.size() > 0) {
-                                        Toast.makeText(context, "Group Activity", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(context, GroupBuildingActivity.class);
                                         context.startActivity(intent);
                                     }
@@ -189,6 +197,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     }
 
     private void ClickItem(ContactViewHolder holder) {
+        database = FirebaseDatabase.getInstance();
         //get selected item value
         Users user = contactDetails.get(holder.getBindingAdapterPosition());
         //check condition
@@ -197,7 +206,29 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
             //visible checkbox
             holder.binding.selectTick.setVisibility(View.VISIBLE);
             selectedUsers.add(user);
+            database.getReference()
+                    .child("groups")
+                    .child(user.getUid())
+                    .setValue(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                        }
+                    });
         } else {
+            DatabaseReference databaseReference = database.getReference().child("groups").child(user.getUid());
+            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    snapshot.getRef().removeValue();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
             holder.binding.selectTick.setVisibility(View.INVISIBLE);
             selectedUsers.remove(user);
         }
